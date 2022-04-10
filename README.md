@@ -73,7 +73,7 @@
 
   [1]: https://blog.wolf4096.top
   [2]: https://github.com/WOLF4096
-  [3]: http://f0f.cc/img/md1.png
-  [4]: http://f0f.cc/img/md2.png
+  [3]: https://s.cdnv1.hanwuss.com/static/upload/wolf4096/20220410/202204101321213130.png
+  [4]: https://s.cdnv1.hanwuss.com/static/upload/wolf4096/20220410/202204101321216224.png
   [5]: http://f0f.cc/_admin
   [6]: http://f0f.cc
