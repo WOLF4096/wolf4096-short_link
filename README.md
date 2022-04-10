@@ -1,5 +1,5 @@
 # 狼介短址
-
+## [查看示例][6]
 ## 狼介所使用的环境
     CentOS 7.6  
     Nginx 1.20.2  
@@ -73,6 +73,7 @@
 
   [1]: https://blog.wolf4096.top
   [2]: https://github.com/WOLF4096
-  [3]: https://vkceyugu.cdn.bspapp.com/VKCEYUGU-9a8cc5dd-fdd4-4b4b-a15d-b62edf64e883/df3f2248-cbd8-4b22-a720-2f6a7830aeea.png
-  [4]: https://vkceyugu.cdn.bspapp.com/VKCEYUGU-9a8cc5dd-fdd4-4b4b-a15d-b62edf64e883/ade1b15d-2059-403b-bfc0-2f977f96595b.png
+  [3]: http://f0f.cc/img/md1.png
+  [4]: http://f0f.cc/img/md2.png
   [5]: http://f0f.cc/_admin
+  [6]: http://f0f.cc
