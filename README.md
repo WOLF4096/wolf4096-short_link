@@ -12,7 +12,7 @@
 0x03__**修改 Nginx 配置文件** ，在配置文件中加入以下代码，如图所示
 
     location ~^/(.*)/$ {
-    root /www/wwwlogs/f0f.cc;#f0f.cc改成你的域名
+    root /www/wwwlogs/f0f.cc;   #改成你的网站路径
     }
     location / {
         if (!-f $request_filename){
@@ -34,9 +34,10 @@
 0x06__打开主页  
 0x07__完成配置  
 
+    网站后台：http://域名/_admin
 ## END
 
-# 0x10_以下是网站的 _help
+# 0x10_以下是网站的 [_help][7]
 
 **狼介短址** 是由 **[狼介(WOLF4096)][1]** 开发的一个 **[开源的短链接项目][2]**，使用简单，核心代码不到 30KB（包含前后端及后台）  
 如有遇到 Bug 可联系 **狼介**  邮箱：wolf4096@foxmail.com
@@ -77,3 +78,4 @@
   [4]: https://s.cdnv1.hanwuss.com/static/upload/wolf4096/20220410/202204101321216224.png
   [5]: http://f0f.cc/_admin
   [6]: http://f0f.cc
+  [7]: http://f0f.cc/_help
