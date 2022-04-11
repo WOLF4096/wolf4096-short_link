@@ -4,14 +4,14 @@ $time1 = microtime(true);
 $timec = (int)(($time1 - $time0)*1000000);
 echo "<!--开始计时：$timec μs-->\n";
 
-$ht_pass = "wolf4096";//设置网站后台密码
-$xs_beia = "";//设置网站备案号
+$ht_pass = "wolf4096";  //设置网站后台密码
+$xs_beia = "";          //设置网站备案号
 
 //设置数据库参数
-$db_addr = "localhost";//主机地址
-$db_user = "wolf4096_url";//用户名
-$db_pass = "LE3AH8mLiESahLcs";//密码
-$db_name = "wolf4096_url";//数据库名
+$db_addr = "localhost"; //主机地址
+$db_user = "wolf_user"; //用户名
+$db_pass = "wolf_pass"; //密码
+$db_name = "wolf_name"; //数据库名
 $db_conn = new mysqli($db_addr, $db_user, $db_pass, $db_name);
 
 //初始化数据库
@@ -96,7 +96,9 @@ https://github.com/WOLF4096    All Platform ID: WOLF4096
     <head>
         <meta charset="utf-8"> 
         <title>狼介短址</title>
-        <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <meta name="description" content="狼介短址 是由 狼介(WOLF4096) 开发的一个 开源的短链接项目，使用简单，仅 30KB（包含前后端及后台）" />
+        <meta name="keywords" content="狼介,WOLF4096,Furry,Wolf,福瑞控,兽人控,野生开发狼,EDA,PHP,HTML" />
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     </head>
     <style>
@@ -195,7 +197,7 @@ echo "<!--加载函数：$timec μs-->\n";
 if ($gt_durl == "/_help"){
     $text = '
 <!--markdown-->
-**狼介短址** 是由 **[狼介(WOLF4096)][1]** 开发的一个 **[开源的短链接项目][2]**，使用简单，核心代码不到 30KB（包含前后端及后台）  
+**狼介短址** 是由 **[狼介(WOLF4096)][1]** 开发的一个 **[开源的短链接项目][2]**，使用简单，仅 30KB（包含前后端及后台）  
 如有遇到 Bug 可联系 **狼介**  邮箱：wolf4096@foxmail.com
 
 1.创建短址
