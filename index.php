@@ -4,13 +4,13 @@ $time1 = microtime(true);
 $timec = (int)(($time1 - $time0)*1000000);
 echo "<!--开始计时：$timec μs-->\n";
 
-$ht_pass = "wolf4096";//设置网站后台密码
-$ht_xian = 32;//设置每日创建上限
-$xs_beia = "";//设置网站备案号
-$db_addr = "localhost";//主机地址
-$db_user = "0l6_cc";//用户名
-$db_pass = "AePn7ww8Se2sXra5";//密码
-$db_name = "0l6_cc";//数据库名
+$ht_pass = "WOLF4096";  //设置网站后台密码
+$ht_xian = 32;          //设置每日创建上限
+$xs_beia = "网站备案号"; //设置网站备案号
+$db_addr = "localhost"; //数据库地址
+$db_user = "WOLF4096";  //数据库用户名
+$db_pass = "WOLF4096";  //数据库密码
+$db_name = "WOLF4096";  //数据库名
 $db_conn = new mysqli($db_addr, $db_user, $db_pass, $db_name);
 
 //初始化数据库
