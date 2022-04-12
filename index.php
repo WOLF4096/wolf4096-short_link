@@ -4,14 +4,13 @@ $time1 = microtime(true);
 $timec = (int)(($time1 - $time0)*1000000);
 echo "<!--开始计时：$timec μs-->\n";
 
-$ht_pass = "wolf4096";  //设置网站后台密码
-$xs_beia = "";          //设置网站备案号
-
-//设置数据库参数
-$db_addr = "localhost"; //主机地址
-$db_user = "wolf_user"; //用户名
-$db_pass = "wolf_pass"; //密码
-$db_name = "wolf_name"; //数据库名
+$ht_pass = "wolf4096";//设置网站后台密码
+$ht_xian = 32;//设置每日创建上限
+$xs_beia = "";//设置网站备案号
+$db_addr = "localhost";//主机地址
+$db_user = "0l6_cc";//用户名
+$db_pass = "AePn7ww8Se2sXra5";//密码
+$db_name = "0l6_cc";//数据库名
 $db_conn = new mysqli($db_addr, $db_user, $db_pass, $db_name);
 
 //初始化数据库
@@ -79,6 +78,10 @@ $time1 = microtime(true);
 $timec = (int)(($time1 - $time0)*1000000);
 echo "<!--获取参数：$timec μs-->\n";
 
+//添加访客记录
+$sql = "INSERT INTO `wolf4096-browse` VALUES (NULL, '$wolf_sj', '$wolf_ip', '$gt_addu')";
+$db_conn->query($sql);
+
 function outhtmltop(){
 echo <<<EOF
 <!-- 狼介（WOLF4096）    Email: wolf4096@foxmail.com    QQ: 2275203821
@@ -96,9 +99,7 @@ https://github.com/WOLF4096    All Platform ID: WOLF4096
     <head>
         <meta charset="utf-8"> 
         <title>狼介短址</title>
-        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-        <meta name="description" content="狼介短址 是由 狼介(WOLF4096) 开发的一个 开源的短链接项目，使用简单，仅 30KB（包含前后端及后台）" />
-        <meta name="keywords" content="狼介,WOLF4096,Furry,Wolf,福瑞控,兽人控,野生开发狼,EDA,PHP,HTML" />
+        <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     </head>
     <style>
@@ -197,7 +198,7 @@ echo "<!--加载函数：$timec μs-->\n";
 if ($gt_durl == "/_help"){
     $text = '
 <!--markdown-->
-**狼介短址** 是由 **[狼介(WOLF4096)][1]** 开发的一个 **[开源的短链接项目][2]**，使用简单，仅 30KB（包含前后端及后台）  
+**狼介短址** 是由 **[狼介(WOLF4096)][1]** 开发的一个 **[开源的短链接项目][2]**，使用简单，核心代码不到 30KB（包含前后端及后台）  
 如有遇到 Bug 可联系 **狼介**  邮箱：wolf4096@foxmail.com
 
 1.创建短址
@@ -243,8 +244,6 @@ if ($gt_durl == "/_help"){
     echo outhtmltop();
     echo outmarkdown($text,$gt_addu);
     echo outhtmlbot($gt_durl,$xs_beia);
-    $sql = "INSERT INTO `wolf4096-browse` VALUES (NULL, '$wolf_sj', '$wolf_ip', '访问：$gt_addu')";
-    $db_conn->query($sql);
 }elseif (substr($gt_durl, 0, 7) == "/_admin"){
     $to_cook = sha1($ht_pass."WOLF4096".$gt_host).sha1($ht_pass."746515005".$gt_host);
     $hq_cook = $_COOKIE["WOLF4096"];
@@ -288,18 +287,14 @@ if ($gt_durl == "/_help"){
                     }
                 }echo "</table>";
             }
-            if ($hq_num1 <> 0 and $hq_udpu <> ""){
+            if ($hq_num1 <> "" and $hq_udpu <> ""){
                 $sql = "UPDATE `wolf4096-url` SET `longurl`='$hq_udpu' WHERE `id` = $hq_num1";
                 $db_conn->query($sql);
                 root2($db_conn);
-                $sql = "INSERT INTO `wolf4096-browse` VALUES (NULL, '$wolf_sj', '$wolf_ip', '更新：$hq_num1 为：$hq_udpu')";
-                $db_conn->query($sql);
-            }elseif ($hq_num2 <> 0){
+            }elseif ($hq_num2 <> ""){
                 $sql = "DELETE FROM `wolf4096-url` WHERE `id` = $hq_num2";
                 $db_conn->query($sql);
                 root2($db_conn);
-                $sql = "INSERT INTO `wolf4096-browse` VALUES (NULL, '$wolf_sj', '$wolf_ip', '删除：$hq_num2')";
-                $db_conn->query($sql);
             }else{
                 root2($db_conn);
             }            
@@ -334,12 +329,10 @@ if ($gt_durl == "/_help"){
                     }
                 }echo "</table>";
             }
-            if ($hq_num1 <> 0 and $hq_num2 <> "" and $hq_num2 < 3){
+            if ($hq_num1 <> "" and $hq_num2 <> "" and $hq_num2 < 3){
                 $sql = "UPDATE `wolf4096-mark` SET `mark`= $hq_num2 WHERE `id` = $hq_num1";
                 $db_conn->query($sql);
                 root3($db_conn);
-                $sql = "INSERT INTO `wolf4096-browse` VALUES (NULL, '$wolf_sj', '$wolf_ip', '修改：$hq_num1 标记：$hq_num2')";
-                $db_conn->query($sql);
             }else{
                 root3($db_conn);
             }            
@@ -378,12 +371,8 @@ if ($gt_durl == "/_help"){
         echo '<h2>登录成功</h2><a class="aw" style="color: #fff;" href="/_admin">进入后台</a><br/>';
         $expire = time()+60*60*24*30;
         setcookie("WOLF4096", "$to_cook", $expire);
-        $sql = "INSERT INTO `wolf4096-browse` VALUES (NULL, '$wolf_sj', '$wolf_ip', '登录成功')";
-        $db_conn->query($sql);
     }elseif ($hq_caoz == "login" and $hq_text <> $ht_pass){
         echo '<h2>密码错误</h2><a class="aw" style="color: #fff;" href="/_admin">重新登录</a><br/>';
-        $sql = "INSERT INTO `wolf4096-browse` VALUES (NULL, '$wolf_sj', '$wolf_ip', '登录失败')";
-        $db_conn->query($sql);
     }else{
         echo outhtmltop();
         echo <<<EOF
@@ -411,7 +400,7 @@ EOF;
             echo '<textarea rows="1" cols="1" style="position: relative;top: 15px;" disabled="disabled">'.$hq_text.'</textarea><a href="/"><input type="button" value="返回主页"></a><br/><h2>提交的域名在黑名单中，无法创建短链</h2>';
         }elseif (substr($hq_text, 0, $gt_ilen) == $gt_inde){
             echo '<h2>您搁这套娃呢</h2><a href="/">返回主页</a>';
-        }elseif ($coun_32 > 31){
+        }elseif ($coun_32 >= $ht_xian){
             echo '<h2>今日请求已达上限，明天再来叭</h2><a href="/">返回主页</a>';
         }elseif ($hq_text == ""){
             echo '<h2>您还未输入任何字符</h2><a href="/">返回主页</a>';
@@ -438,8 +427,6 @@ EOF;
                 $sql = "INSERT INTO `wolf4096-url` VALUES (NULL, '$wolf_sj', '$wolf_ip', '$hq_text', '$js_bian')";
                 $db_conn->query($sql);
             }
-            $sql = "INSERT INTO `wolf4096-browse` VALUES (NULL, '$wolf_sj', '$wolf_ip', '添加：$hq_text')";
-            $db_conn->query($sql);
         }
         break;
     case "outurl":
@@ -452,8 +439,6 @@ EOF;
         if ($cx_text == "" or $cx_mark == 2){
             echo '<h2>无结果</h2><a href="/">返回主页</a>';
         }
-        $sql = "INSERT INTO `wolf4096-browse` VALUES (NULL, '$wolf_sj', '$wolf_ip', '查询：$hq_bian')";
-        $db_conn->query($sql);
         break;
     default:
         echo '<h2>非法请求</h2><a href="/">返回主页</a>';
@@ -540,8 +525,6 @@ EOF;
     }else{
         Header("Location:$gt_inde");
     }
-    $sql = "INSERT INTO `wolf4096-browse` VALUES (NULL, '$wolf_sj', '$wolf_ip', '访问：$gt_addu')";
-    $db_conn->query($sql);
 }else{
     echo outhtmltop();
     echo <<<EOF
