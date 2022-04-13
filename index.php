@@ -107,6 +107,10 @@ https://github.com/WOLF4096    All Platform ID: WOLF4096
         input[type=button],[type=submit] {background-color: #6d8db6;color: white;padding: 12px 20px;margin: 8px 0;border: none;border-radius: 4px;cursor: pointer;}
         input[type=button],[type=submit]:hover {background-color: #5d729d;}
         img {width: 100%;}
+        table{background:#ccc;}
+        td,th {padding: 2px 10px;}
+        td {background:#f7f7f7;}
+        th {background:#e7e7e7;}
         a:link {color:#000;text-decoration:none;}
         a:visited {color:#000;}
         .aw {display: inline-block;padding: 10px 16px;font-size: 14px;line-height: 1;background-color: #6d8db6;border-radius: 3px;}
