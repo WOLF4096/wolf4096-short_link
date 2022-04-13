@@ -21,7 +21,6 @@ if ($db_conn->query($sql)){
     $sql = "CREATE TABLE `wolf4096-url` (`id` int(8) NOT NULL,`time` datetime NOT NULL,`ip` varchar(16) NOT NULL,`longurl` text NOT NULL,`shorturl` varchar(8) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
     if ($db_conn->query($sql)){
         $sql = "ALTER TABLE `wolf4096-url` ADD PRIMARY KEY (`id`);";$db_conn->query($sql);
-        $sql = "ALTER TABLE `wolf4096-url` MODIFY `id` int(8) NOT NULL AUTO_INCREMENT;";$db_conn->query($sql);
         $sql = "CREATE TABLE `wolf4096-browse` (`id` int(8) NOT NULL,`time` datetime NOT NULL,`ip` varchar(16) NOT NULL,`url` varchar(32) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;";$db_conn->query($sql);
         $sql = "ALTER TABLE `wolf4096-browse` ADD PRIMARY KEY (`id`);";$db_conn->query($sql);
         $sql = "ALTER TABLE `wolf4096-browse` MODIFY `id` int(8) NOT NULL AUTO_INCREMENT;";$db_conn->query($sql);
@@ -414,7 +413,8 @@ EOF;
                 $sql = "SELECT MAX(`ID`) AS lf FROM `wolf4096-url`";
                 $res = $db_conn->query($sql);
                 $row = $res->fetch_assoc();
-                $uwu = $row["lf"] + 1;
+                $idu = $row["lf"] + 1;
+                $uwu = $idu;
                 $dict = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
                 $js_bian = '';
                 do {
@@ -424,7 +424,7 @@ EOF;
                 $cx_text = $hq_text;
                 $gt_durl = $js_bian;
                 $cx_time = $wolf_sj;
-                $sql = "INSERT INTO `wolf4096-url` VALUES (NULL, '$wolf_sj', '$wolf_ip', '$hq_text', '$js_bian')";
+                $sql = "INSERT INTO `wolf4096-url` VALUES ($idu, '$wolf_sj', '$wolf_ip', '$hq_text', '$js_bian')";
                 $db_conn->query($sql);
             }
         }
