@@ -473,7 +473,7 @@ EOF;
         echo '<textarea rows="1" cols="1" style="position: relative;top: 15px;overflow: hidden;text-overflow: ellipsis;" disabled="disabled">'.$cx_text.'</textarea><a href="'.$txt.'" target="'.$tz1.'"><input type="button" value="'.$ann.'"></a><br/>
         <input type="text" value="'.$qd_mydu.'" disabled="disabled"><a href="'.$qd_mydu.'" target="'.$tz1.'"><input type="button" value="打开短链"></a><br/><br/>
         <div>
-            <div style="width: 30%;float: left;text-align: right;"><img style="width: 115px;height: 115px;" src="https://api.isoyu.com/qr/?m=1&e=L&p=10&url='.$qd_mydu.'" ></div>
+            <div style="width: 30%;float: left;text-align: right;"><img style="width: 115px;height: 115px;" src="http://qr.f0f.cc/?t='.$qd_mydu.'" ></div>
             <div style="width: 20px;height: 115px;float: left;">&nbsp;</div>
             <div style="width: 100%;text-align: left;font-size: 14px">创建时间：'.$cx_time.' <br/>最后访问：'.$cx_timr.' <br/>访问总数：'.$cx_coub.' <br/><br/><a href="/"><b style="font-size: 18px;">返回主页</b></a></div>
         </div>';
