@@ -278,7 +278,7 @@ if ($gt_durl == "/_help"){
                 echo '<form name="input" action="/_admin?root=2" method="post"><input type="hidden" name="root" value="2" >
                 修改：<input type="text" name="updid" placeholder="输入要修改的ID" style="width: 36%;padding: 10px 12px;margin: 5px 5px;"><input type="text" name="updurl" placeholder="输入要修改的内容" style="width: 36%;padding: 10px 12px;margin: 5px 5px;"><br/>
                 删除：<input type="text" name="updmr" placeholder="输入要删除的ID" style="width: 36%;padding: 10px 12px;margin: 5px 5px;"><input type="submit" value="提交修改" style="padding: 10px 16px;margin: 8px 6px;"><a href="/_admin" ><input type="button" value="后台主页" style="padding: 10px 16px;margin: 8px 6px;"></a></form>
-                <h3>查看链接表 (最新的100条)</h3><table border="0" style="margin: auto;width: 100%;text-align: center;border: 1px dashed;"><tr><td>ID</td><td>创建时间</td><td>IP</td><td>短链接</td><td>长连接</td></tr>';
+                <h3>查看链接表 (最新的100条)</h3><table border="0" style="margin: auto;width: 100%;text-align: center;border: 1px dashed;"><tr><td>ID</td><td>创建时间</td><td>IP</td><td>短链接</td><td>记录值</td></tr>';
                 if ($res->num_rows > 0) {
                     while($row = $res->fetch_assoc()) {
                         $cx_idr2 = $row["id"];
