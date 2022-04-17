@@ -355,9 +355,23 @@ if ($gt_durl == "/_help"){
                 }
             }echo "</table>";            
             break;
+        case 5:
+            $sql = "SELECT `ip`,COUNT(`ip`) as `ipx` FROM `wolf4096-browse` GROUP BY `ip` ORDER BY `ipx` DESC LIMIT 100";
+            $res = $db_conn->query($sql);
+            echo '<a href="/_admin" ><input type="button" value="后台主页" style="padding: 10px 16px;margin: 8px 6px;"></a><span>注：需要更多操作，请自行前往数据库操作</span><h3>查看IP排名表 (最新的100条)</h3>
+            <table border="0" style="margin: auto;width: 100%;text-align: center;border: 1px dashed;"><tr><td>IP</td><td>访问次数</td></tr>';
+            if ($res->num_rows > 0) {
+                while($row = $res->fetch_assoc()) {
+                    $wolf_ip = $row["ip"];
+                    $cx_zong = $row["ipx"];
+                    echo "\n<tr><td>$wolf_ip</td><td>$cx_zong</td></tr>";
+                }
+            }echo "</table>";
+            break;
         default:
             echo '<p style="font-size: 16px;">查询(100条):&nbsp;&nbsp;
-                <a class="aw" style="color: #fff;" href="/_admin?root=1" >访客排名表</a></p>
+                <a class="aw" style="color: #fff;" href="/_admin?root=1" >访客排名表</a>&nbsp;
+                <a class="aw" style="color: #fff;" href="/_admin?root=5" >IP 排名表</a></p>
             <p style="font-size: 16px;">查看(100条):&nbsp;&nbsp;
                 <a class="aw" style="color: #fff;" href="/_admin?root=2" >链接表</a>&nbsp;
                 <a class="aw" style="color: #fff;" href="/_admin?root=3" >标记表</a>&nbsp;
