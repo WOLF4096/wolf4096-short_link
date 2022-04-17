@@ -21,7 +21,7 @@ if ($db_conn->query($sql)){
     $sql = "CREATE TABLE `wolf4096-url` (`id` int(8) NOT NULL,`time` datetime NOT NULL,`ip` varchar(16) NOT NULL,`longurl` text NOT NULL,`shorturl` varchar(8) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
     if ($db_conn->query($sql)){
         $sql = "ALTER TABLE `wolf4096-url` ADD PRIMARY KEY (`id`);";$db_conn->query($sql);
-        $sql = "CREATE TABLE `wolf4096-browse` (`id` int(8) NOT NULL,`time` datetime NOT NULL,`ip` varchar(16) NOT NULL,`url` varchar(32) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;";$db_conn->query($sql);
+        $sql = "CREATE TABLE `wolf4096-browse` (`id` int(8) NOT NULL,`time` datetime NOT NULL,`ip` varchar(16) NOT NULL,`location` varchar(32) NOT NULL,`url` varchar(32) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;";$db_conn->query($sql);
         $sql = "ALTER TABLE `wolf4096-browse` ADD PRIMARY KEY (`id`);";$db_conn->query($sql);
         $sql = "ALTER TABLE `wolf4096-browse` MODIFY `id` int(8) NOT NULL AUTO_INCREMENT;";$db_conn->query($sql);
         $sql = "CREATE TABLE `wolf4096-mark` (`id` int(4) NOT NULL,`list` varchar(32) NOT NULL,`mark` int(1) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;";$db_conn->query($sql);
@@ -72,13 +72,18 @@ $wolf_ip = preg_match ('/[\d\.]{7,15}/',$wolf_ip,$matches) ?$matches[0] :'';
 $wolf_sj = date('Y-m-d H:i:s',time());
 $wolf_32 = date('Y-m-d H:i:s',time() - 24*60*60);
 
+$ipjson = "http://myip.c.owo.fit/?ip=$wolf_ip";
+$json_string = file_get_contents($ipjson);
+$data = json_decode($json_string, true);
+$wolf_wz = $data['country'].$data['province'].$data['city'].$data['county']."_".$data['isp'];
+
 $time2 = microtime(true);
 $time1 = microtime(true);
 $timec = (int)(($time1 - $time0)*1000000);
 echo "<!--获取参数：$timec μs-->\n";
-
+    
 //添加访客记录
-$sql = "INSERT INTO `wolf4096-browse` VALUES (NULL, '$wolf_sj', '$wolf_ip', '$gt_addu')";
+$sql = "INSERT INTO `wolf4096-browse` VALUES (NULL, '$wolf_sj', '$wolf_ip', '$wolf_wz', '$gt_addu')";
 $db_conn->query($sql);
 
 function outhtmltop(){
@@ -99,6 +104,7 @@ https://github.com/WOLF4096    All Platform ID: WOLF4096
         <meta charset="utf-8"> 
         <title>狼介短址</title>
         <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
+        <meta name="description" content="狼介短址 - 一个支持 链接、文本 以及 Markdown 的短链接" />
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     </head>
     <style>
@@ -269,7 +275,7 @@ if ($gt_durl == "/_help"){
                     $wolf_ip = $row["ip"];
                     echo "\n<tr><td>$cx_time</td><td>$wolf_ip</td><td style=".'"'."text-align: left;".'"'.">$cx_surl</td><td>$cx_paim</td></tr>";
                 }
-            }echo "</table>";            
+            }echo "</table>";
             break;
         case 2:
             function root2($db_conn){
@@ -359,12 +365,13 @@ if ($gt_durl == "/_help"){
             $sql = "SELECT `ip`,COUNT(`ip`) as `ipx` FROM `wolf4096-browse` GROUP BY `ip` ORDER BY `ipx` DESC LIMIT 100";
             $res = $db_conn->query($sql);
             echo '<a href="/_admin" ><input type="button" value="后台主页" style="padding: 10px 16px;margin: 8px 6px;"></a><span>注：需要更多操作，请自行前往数据库操作</span><h3>查看IP排名表 (最新的100条)</h3>
-            <table border="0" style="margin: auto;width: 100%;text-align: center;border: 1px dashed;"><tr><td>IP</td><td>访问次数</td></tr>';
+            <table border="0" style="margin: auto;width: 100%;text-align: center;border: 1px dashed;"><tr><td>IP</td><td>大致位置</td><td>访问次数</td></tr>';
             if ($res->num_rows > 0) {
                 while($row = $res->fetch_assoc()) {
                     $wolf_ip = $row["ip"];
                     $cx_zong = $row["ipx"];
-                    echo "\n<tr><td>$wolf_ip</td><td>$cx_zong</td></tr>";
+                    $wolf_wz = $row["location"];
+                    echo "\n<tr><td>$wolf_ip</td><td>$wolf_wz</td><td>$cx_zong</td></tr>";
                 }
             }echo "</table>";
             break;
