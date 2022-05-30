@@ -4,13 +4,22 @@ $time1 = microtime(true);
 $timec = (int)(($time1 - $time0)*1000000);
 echo "<!--开始计时：$timec μs-->\n";
 
-$ht_pass = "WOLF4096";  //设置网站后台密码
-$ht_xian = 32;          //设置每日创建上限
-$xs_beia = "网站备案号"; //设置网站备案号
-$db_addr = "localhost"; //数据库地址
-$db_user = "WOLF4096";  //数据库用户名
-$db_pass = "WOLF4096";  //数据库密码
-$db_name = "WOLF4096";  //数据库名
+$lj_wolf = "";
+//站点根目录，在根目录为空
+//"$lj_wolf = "/u";" 表示在u文件夹下
+//配置文件需要修改对应参数（如下所示）
+// location /u {
+//     if (!-f $request_filename){
+//         rewrite (.*) /u/index.php;
+//     }
+// }
+$ht_pass = "746515005.";        //设置网站后台密码
+$ht_xian = 32;                  //设置每日创建上限
+// $xs_beia = "";               //设置网站备案号
+$db_addr = "localhost";         //数据库地址
+$db_user = "wolf4096_url";      //数据库用户名
+$db_pass = "wolf4096_url";      //数据库密码
+$db_name = "wolf4096_url";      //数据库名
 $db_conn = new mysqli($db_addr, $db_user, $db_pass, $db_name);
 
 //初始化数据库
@@ -54,8 +63,11 @@ if ($_SERVER['SERVER_PORT'] == '443'){
 $gt_host = $_SERVER['HTTP_HOST'];
 $gt_durl = $_SERVER['REQUEST_URI'];
 $gt_addu = $gt_http.$gt_host.$gt_durl;
-$gt_inde = $gt_http.$gt_host."/";
+$gt_inde = $gt_http.$gt_host.$lj_wolf;
 $gt_ilen = strlen($gt_inde);
+$gt_durl = (String)substr($gt_addu, $gt_ilen, 8);
+if ($gt_durl == ""){$gt_durl = "/";}
+
 if (substr($hq_bian, 0, $gt_ilen) == $gt_inde){
     $hq_bian = (String)substr($hq_bian, $gt_ilen, 8);
 }
@@ -87,7 +99,7 @@ $sql = "INSERT INTO `wolf4096-browse` VALUES (NULL, '$wolf_sj', '$wolf_ip', '$wo
 $db_conn->query($sql);
 
 function outhtmltop(){
-echo <<<EOF
+?>
 <!-- 狼介（WOLF4096）    Email: wolf4096@foxmail.com    QQ: 2275203821
  _       __   ____     __     ______   __ __   ____    ____    _____
 | |     / /  / __ \   / /    / ____/  / // /  / __ \  / __ \  / ___/
@@ -124,8 +136,8 @@ https://github.com/WOLF4096    All Platform ID: WOLF4096
     </style>
     <body>
         <div style="width: 100%;height: 160px;"></div>
-        <h1><a href="/">狼介短址</a></h1>
-EOF;
+        <h1><a href="./">狼介短址</a></h1>
+<?php
 }
 function outhtmlbot($gt_durl,$xs_beia){
 ?>
@@ -133,8 +145,8 @@ function outhtmlbot($gt_durl,$xs_beia){
         <div style="width: 100%;height:20px;position: inherit;bottom: 10px;font-size: 12px;color: #777;">
             Copyright © 2022.
             <a href="https://blog.wolf4096.top/" target="_blank" style="color: #777;">狼介(WOLF4096). </a>
-            <a href="/_help" style="color: #777;">使用方法. </a>
-            <a href="https://beian.miit.gov.cn/" style="color: #777;"><?php echo $xs_beia; ?></a>
+            <a href="./_help" style="color: #777;">使用方法. </a>
+            <a href="https://furgov.cn/?query=f0f.cc" target="_blank" style="color: #777;">兽ICP备202205775号</a>
         </div><br/>
         <script>
             function posturl(str) {
@@ -142,7 +154,7 @@ function outhtmlbot($gt_durl,$xs_beia){
                 var durl = document.getElementById("durl").value;
                 var post = "inturl=" + curl + "&outurl=" + durl + "&operat=" + str;
                 var httpRequest = new XMLHttpRequest();
-                httpRequest.open('POST', '<?php echo $gt_durl;?>', true);
+                httpRequest.open('POST', '.<?php echo $gt_durl;?>', true);
                 httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 httpRequest.send(post);
                 httpRequest.onreadystatechange = function() {
@@ -223,7 +235,7 @@ if ($gt_durl == "/_help"){
 ==
 **使用方法**：输入短址 或 编号  
 一、**短址**：输入/粘贴 短址-->查询短址  
-例如：**'.$gt_inde.'1**  
+例如：**'.$gt_inde.'/1**  
 二、**编号**：输入/粘贴 编号-->查询短址  
 例如：**1**  
 
@@ -245,7 +257,7 @@ if ($gt_durl == "/_help"){
   [1]: https://blog.wolf4096.top
   [2]: https://github.com/WOLF4096
   [3]: https://vkceyugu.cdn.bspapp.com/VKCEYUGU-9a8cc5dd-fdd4-4b4b-a15d-b62edf64e883/ade1b15d-2059-403b-bfc0-2f977f96595b.png
-  [4]: '.$gt_inde.'_admin
+  [4]: '.$gt_inde.'/_admin
     ';
     require 'Parsedown.php';
     $Parsedown = new Parsedown();
@@ -362,7 +374,7 @@ if ($gt_durl == "/_help"){
             }echo "</table>";            
             break;
         case 5:
-            $sql = "SELECT `ip`,COUNT(`ip`) as `ipx` FROM `wolf4096-browse` GROUP BY `ip` ORDER BY `ipx` DESC LIMIT 100";
+            $sql = "SELECT `ip`,`location`,COUNT(`ip`) as `ipx` FROM `wolf4096-browse` GROUP BY `ip` ORDER BY `ipx` DESC LIMIT 100";
             $res = $db_conn->query($sql);
             echo '<a href="/_admin" ><input type="button" value="后台主页" style="padding: 10px 16px;margin: 8px 6px;"></a><span>注：需要更多操作，请自行前往数据库操作</span><h3>查看IP排名表 (最新的100条)</h3>
             <table border="0" style="margin: auto;width: 100%;text-align: center;border: 1px dashed;"><tr><td>IP</td><td>大致位置</td><td>访问次数</td></tr>';
@@ -421,13 +433,13 @@ EOF;
             $db_conn->query($sql);
         }
         if ($cx_mark == 2){
-            echo '<textarea rows="1" cols="1" style="position: relative;top: 15px;" disabled="disabled">'.$hq_text.'</textarea><a href="/"><input type="button" value="返回主页"></a><br/><h2>提交的域名在黑名单中，无法创建短链</h2>';
+            echo '<textarea rows="1" cols="1" style="position: relative;top: 15px;" disabled="disabled">'.$hq_text.'</textarea><a href="./"><input type="button" value="返回主页"></a><br/><h2>提交的域名在黑名单中，无法创建短链</h2>';
         }elseif (substr($hq_text, 0, $gt_ilen) == $gt_inde){
-            echo '<h2>您搁这套娃呢</h2><a href="/">返回主页</a>';
+            echo '<h2>您搁这套娃呢</h2><a href="./">返回主页</a>';
         }elseif ($coun_32 >= $ht_xian){
-            echo '<h2>今日请求已达上限，明天再来叭</h2><a href="/">返回主页</a>';
+            echo '<h2>今日请求已达上限，明天再来叭</h2><a href="./">返回主页</a>';
         }elseif ($hq_text == ""){
-            echo '<h2>您还未输入任何字符</h2><a href="/">返回主页</a>';
+            echo '<h2>您还未输入任何字符</h2><a href="./">返回主页</a>';
         }else{
             $sql = "SELECT * FROM `wolf4096-url` WHERE binary `longurl` = '$hq_text'";
             $row = mysqli_fetch_array($db_conn->query($sql));
@@ -462,13 +474,14 @@ EOF;
         $cx_time = $cx_dtot[1];
         $gt_durl = $hq_bian;
         if ($cx_text == "" or $cx_mark == 2){
-            echo '<h2>无结果</h2><a href="/">返回主页</a>';
+            echo '<h2>无结果</h2><a href="./">返回主页</a>';
         }
         break;
     default:
-        echo '<h2>非法请求</h2><a href="/">返回主页</a>';
+        echo '<h2>非法请求</h2><a href="./">返回主页</a>';
     }
     if ($cx_text <> "" and $gt_durl <> "" and $cx_mark <> 2){
+        $qd_mydu = $gt_inde."/".$gt_durl;
         $sql = "SELECT MAX(`time`) AS timr FROM `wolf4096-browse` WHERE binary `url` = '$qd_mydu'";
         $res = $db_conn->query($sql);
         $row = $res->fetch_assoc();
@@ -477,7 +490,6 @@ EOF;
         $res = $db_conn->query($sql);
         $row = $res->fetch_assoc();
         $cx_coub = $row["coub"];
-        $qd_mydu = $gt_inde.$gt_durl;
         if ($cx_timr == ""){
             $cx_timr = "从未访问";
         }
@@ -496,7 +508,7 @@ EOF;
         <div>
             <div style="width: 30%;float: left;text-align: right;"><img style="width: 115px;height: 115px;" src="http://qr.f0f.cc/?t='.$qd_mydu.'" ></div>
             <div style="width: 20px;height: 115px;float: left;">&nbsp;</div>
-            <div style="width: 100%;text-align: left;font-size: 14px">创建时间：'.$cx_time.' <br/>最后访问：'.$cx_timr.' <br/>访问总数：'.$cx_coub.' <br/><br/><a href="/"><b style="font-size: 18px;">返回主页</b></a></div>
+            <div style="width: 100%;text-align: left;font-size: 14px">创建时间：'.$cx_time.' <br/>最后访问：'.$cx_timr.' <br/>访问总数：'.$cx_coub.' <br/><br/><a href="./"><b style="font-size: 18px;">返回主页</b></a></div>
         </div>';
     }
 }elseif ($gt_durl <> "/"){
@@ -544,7 +556,7 @@ EOF;
         echo outhtmlbot($gt_durl,$xs_beia);
     }elseif ($cx_mark == 2 and $cx_text <> ""){
         echo outhtmltop();
-        echo '<h2>源链接异常，无法访问</h2><a href="/">返回主页</a><br>';
+        echo '<h2>源链接异常，无法访问</h2><a href="./">返回主页</a><br>';
         echo outhtmlbot($gt_durl,$xs_beia);
     }elseif ($qd_bian == "_help" or $qd_bian == "_admin"){
     }else{
